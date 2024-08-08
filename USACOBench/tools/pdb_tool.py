@@ -6,6 +6,7 @@ from functools import partial
 import multiprocessing
 from multiprocessing import Queue
 from copy import deepcopy
+import os
 
 import threading
 
@@ -64,7 +65,7 @@ class DebugSession:
                  code,
                  session_name: str = 'session'):
         timestamp_str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S_%f")
-        code_fname = 'code_sandbox/code_{}_{}.py'.format(session_name, timestamp_str)
+        code_fname = '{}/code_{}_{}.py'.format(os.environ.get('DEFAULT_SANDBOX_ROOT'), session_name, timestamp_str)
         code = 'import pdb; pdb.set_trace()\n' + code
         with open(code_fname, 'w') as f:
             f.write(code)

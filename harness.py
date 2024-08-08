@@ -15,7 +15,7 @@ def main(problem_dict_with_responses):
     if not os.path.exists('code_sandbox'):
         os.makedirs('code_sandbox')
 
-    # set env variables with absolute paths to abvoe directories
+    # set env variables with absolute paths to directories required in harness code
     os.environ['USACO_TEST_IN_PATH'] = os.path.abspath('data/datasets/usaco_v3/tests/{}/{}.in')
     os.environ['USACO_TEST_IN_ALT_PATH'] = os.path.abspath('data/datasets/usaco_v3/tests/{}/I.{}')
     os.environ['USACO_TEST_OUT_PATH'] = os.path.abspath('data/datasets/usaco_v3/tests/{}/{}.out')
@@ -26,6 +26,11 @@ def main(problem_dict_with_responses):
 
     os.environ['DEFAULT_SANDBOX_DIR'] = os.path.abspath('code_sandbox/sandbox_env.db')
     os.environ['DEFAULT_OUT_FILE'] = os.path.abspath('code_sandbox/sandbox_out.out')
+
+    os.environ['CODEFORCES_SOLUTIONS_PATH'] = os.path.abspath('judge_sandbox/solutions/codeforces/{}_{}_{}.py')
+
+    os.environ['DEFAULT_SANDBOX_ROOT'] = os.path.abspath('code_sandbox')
+    os.environ['JUDGE_SANDBOX_ROOT'] = os.path.abspath('judge_sandbox')
         
     # model and judge
     verbose = True

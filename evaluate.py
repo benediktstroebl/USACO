@@ -119,11 +119,11 @@ def evaluate_ss(ss, mode='eval_all') -> List[ResultSet]:
     Returns a list of result sets.
     '''
     timestamp_str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S_%f")
-    with open('judge_sandbox/solution_sets_{}.pickle'.format(timestamp_str), 'wb') as f:
+    with open('{}/solution_sets_{}.pickle'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str), 'wb') as f:
         pickle.dump(ss, f)
-    os.system('python evaluate_solution_sets.py -s judge_sandbox/solution_sets_{}.pickle -r judge_sandbox/result_sets_{}.pickle -m {}'.format(timestamp_str, timestamp_str, mode))
+    os.system('python evaluate_solution_sets.py -s {}/solution_sets_{}.pickle -r {}/result_sets_{}.pickle -m {}'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str, os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str, mode))
     try:
-        with open('judge_sandbox/result_sets_{}.pickle'.format(timestamp_str), 'rb') as f:
+        with open('{}/result_sets_{}.pickle'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str), 'rb') as f:
             rs = pickle.load(f)
     except Exception as error:
         print(error)
@@ -137,10 +137,10 @@ def evaluate_code(problem_id, code) -> Result:
     Returns a single result.
     '''
     timestamp_str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S_%f")
-    with open('judge_sandbox/code_{}.py'.format(timestamp_str), 'w') as f:
+    with open('{}/code_{}.py'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str), 'w') as f:
         f.write(code)
-    os.system('python usaco_judge_one.py judge_sandbox/code_{}.py -i {} -r --result_path judge_sandbox/result_{}.pickle'.format(timestamp_str, problem_id, timestamp_str))
-    with open('judge_sandbox/result_{}.pickle'.format(timestamp_str), 'rb') as f:
+    os.system('python usaco_judge_one.py {}/code_{}.py -i {} -r --result_path {}/result_{}.pickle'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str, problem_id, os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str))
+    with open('{}/result_{}.pickle'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str), 'rb') as f:
         result = pickle.load(f)
     return result
 
@@ -153,11 +153,11 @@ def run_code_on_input(problem_id, code, input) -> str:
     timestamp_str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S_%f")
     code_prefix = '''import sys;sys.stdout = open('output_{}.txt', 'w');sys.stderr = sys.stdout\n'''.format(timestamp_str)
     code = code_prefix + code
-    with open('judge_sandbox/code_{}.py'.format(timestamp_str), 'w') as f:
+    with open('{}/code_{}.py'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str), 'w') as f:
         f.write(code)
-    with open('judge_sandbox/input_{}.txt'.format(timestamp_str), 'w') as f:
+    with open('{}/input_{}.txt'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str), 'w') as f:
         f.write(input)
-    os.system('cat judge_sandbox/input_{}.txt | python judge_sandbox/code_{}.py'.format(timestamp_str, timestamp_str))
+    os.system('cat {}/input_{}.txt | python {}/code_{}.py'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str, os.environ.get('JUDGE_SANDBOX_ROOT'), timestamp_str))
     with open('output_{}.txt'.format(timestamp_str), 'r') as f:
         output = f.read()
     return output

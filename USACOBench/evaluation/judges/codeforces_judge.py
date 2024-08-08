@@ -5,6 +5,7 @@ from datetime import datetime
 import random
 import subprocess
 from typing import List, Dict, Any, Union
+import os
 
 from .codeforces_utils import parse_codeforces_result_type
 from .judge import Judge
@@ -16,9 +17,12 @@ Result = Dict[str, str]
 ResultSet = List[Result]
 
 # [README] modify solutions path
-CODEFORCES_SOLUTIONS_PATH = 'judge_sandbox/solutions/codeforces/{}_{}_{}.py'
+# CODEFORCES_SOLUTIONS_PATH = 'judge_sandbox/solutions/codeforces/{}_{}_{}.py'
+
+CODEFORCES_SOLUTIONS_PATH = os.environ.get('CODEFORCES_SOLUTIONS_PATH')
+
 # construct judge sandbox directories if they don't exist
-Path('judge_sandbox/solutions/codeforces').mkdir(parents=True, exist_ok=True)
+Path(os.environ.get('JUDGE_SANDBOX_ROOT') + '/solutions/codeforces').mkdir(parents=True, exist_ok=True)
 
 class CodeforcesJudge(Judge):
     def __init__(self,

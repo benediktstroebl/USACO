@@ -7,6 +7,7 @@ import pickle
 from USACOBench.agents import Agent
 from .judges.codeforces_judge import CodeforcesJudge
 from .judges.usaco_batch_judge import USACOBatchJudge
+import os
 
 Problem = Dict[Any, Any]
 Solution = Dict[str, Union[str, None]]
@@ -30,13 +31,13 @@ def evaluate_agent(agent: Agent,
         then evaluates those solutions using the appropriate judge_type
     '''
     # construct judge sandbox directories if they don't exist
-    path = Path('judge_sandbox/solutions/{}/solution_sets/'.format(judge_type))
+    path = Path(os.environ.get('JUDGE_SANDBOX_ROOT') + f'/solutions/{judge_type}/solution_sets/')
     path.mkdir(parents=True, exist_ok=True)
     
     solution_sets = agent.solve(problems, attempts=attempts, prompt_fns=prompt_fns)
     if save_solution_sets:
         timestamp = datetime.now().strftime("%m_%d_%Y_%H_%M_%S_%f")
-        fname = 'judge_sandbox/solutions/{}/solution_sets/solution_sets_{}.pickle'.format(judge_type, timestamp)
+        fname = '{}/solutions/{}/solution_sets/solution_sets_{}.pickle'.format(os.environ.get('JUDGE_SANDBOX_ROOT'), judge_type, timestamp)
         with open(fname, 'wb') as f:
             pickle.dump(solution_sets, f)
         print('Saved solution sets at {}'.format(fname))
@@ -53,7 +54,7 @@ def evaluate_solution_sets(solution_sets: List[SolutionSet],
     else:
         assert False, 'Judge {} not supported'.format(judge)
 
-    path = Path('judge_sandbox/predictions/{}/'.format(judge_type))
+    path = Path(os.environ.get('JUDGE_SANDBOX_ROOT') + f'/predictions/{judge_type}/')
     path.mkdir(parents=True, exist_ok=True)
     
     result_sets = judge.judge(solution_sets, problem_dict, **kwargs)

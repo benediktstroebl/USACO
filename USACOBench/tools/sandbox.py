@@ -12,8 +12,11 @@ import signal
 import tempfile
 import dill
 
-DEFAULT_SANDBOX_DIR = 'code_sandbox/sandbox_env.db'
-DEFAULT_OUT_FILE = 'code_sandbox/sandbox_out.out'
+# DEFAULT_SANDBOX_DIR = 'code_sandbox/sandbox_env.db'
+# DEFAULT_OUT_FILE = 'code_sandbox/sandbox_out.out'
+
+DEFAULT_SANDBOX_DIR = os.environ.get('DEFAULT_SANDBOX_DIR')
+DEFAULT_OUT_FILE = os.environ.get('DEFAULT_OUT_FILE')
 
 if not os.path.isfile(DEFAULT_SANDBOX_DIR):
     # init empty environment if not available

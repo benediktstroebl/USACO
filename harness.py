@@ -14,6 +14,18 @@ def main(problem_dict_with_responses):
         
     if not os.path.exists('code_sandbox'):
         os.makedirs('code_sandbox')
+
+    # set env variables with absolute paths to abvoe directories
+    os.environ['USACO_TEST_IN_PATH'] = os.path.abspath('data/datasets/usaco_v3/tests/{}/{}.in')
+    os.environ['USACO_TEST_IN_ALT_PATH'] = os.path.abspath('data/datasets/usaco_v3/tests/{}/I.{}')
+    os.environ['USACO_TEST_OUT_PATH'] = os.path.abspath('data/datasets/usaco_v3/tests/{}/{}.out')
+    os.environ['USACO_TEST_OUT_ALT_PATH'] = os.path.abspath('data/datasets/usaco_v3/tests/{}/O.{}')
+
+    os.environ['USACO_PREDICTIONS_PATH'] = os.path.abspath('judge_sandbox/predictions/usaco/{}_{}.pred')
+    os.environ['USACO_SOLUTIONS_PATH'] = os.path.abspath('judge_sandbox/solutions/usaco/{}_{}.py')
+
+    os.environ['DEFAULT_SANDBOX_DIR'] = os.path.abspath('code_sandbox/sandbox_env.db')
+    os.environ['DEFAULT_OUT_FILE'] = os.path.abspath('code_sandbox/sandbox_out.out')
         
     # model and judge
     verbose = True
@@ -82,11 +94,7 @@ if __name__ == '__main__':
         json.dump(rdict, f)
     with open(f'results/sdict_{args.run_id}.json', 'w') as f:
         json.dump(sdict, f)
-        
-    # remove judge_sandbox and code_sandbox
-    import shutil
-    shutil.rmtree('judge_sandbox')
-    shutil.rmtree('code_sandbox')
+    
         
     
 

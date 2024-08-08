@@ -11,7 +11,6 @@ from typing import Any, List, Dict, Union
 from tqdm.asyncio import tqdm_asyncio
 import math
 import anthropic
-from openlimit import ChatRateLimiter
 from json import JSONDecodeError
 import backoff
 

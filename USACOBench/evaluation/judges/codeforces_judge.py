@@ -16,7 +16,7 @@ Result = Dict[str, str]
 ResultSet = List[Result]
 
 # [README] modify solutions path
-CODEFORCES_SOLUTIONS_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/judge_sandbox/solutions/codeforces/{}_{}_{}.py'
+CODEFORCES_SOLUTIONS_PATH = 'judge_sandbox/solutions/codeforces/{}_{}_{}.py'
 # construct judge sandbox directories if they don't exist
 Path('judge_sandbox/solutions/codeforces').mkdir(parents=True, exist_ok=True)
 

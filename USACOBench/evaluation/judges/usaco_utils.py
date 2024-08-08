@@ -16,15 +16,10 @@ from USACOBench.evaluation.result_type import ResultType
 Result = Dict[str, str]
 
 # [FILL IN: NEED PATH TO TESTS]
-USACO_TEST_IN_PATH = '/n/fs/nlp-qbshi/p-in-memory-learning/data/datasets/usaco_v3/tests/{}/{}.in'
-USACO_TEST_IN_ALT_PATH = '/n/fs/nlp-qbshi/p-in-memory-learning/data/datasets/usaco_v3/tests/{}/I.{}'
-USACO_TEST_OUT_PATH = '/n/fs/nlp-qbshi/p-in-memory-learning/data/datasets/usaco_v3/tests/{}/{}.out'
-USACO_TEST_OUT_ALT_PATH = '/n/fs/nlp-qbshi/p-in-memory-learning/data/datasets/usaco_v3/tests/{}/O.{}'
-
-# USACO_TEST_IN_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/data/datasets/usaco/tests/{}/{}.in'
-# USACO_TEST_IN_ALT_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/data/datasets/usaco/tests/{}/I.{}'
-# USACO_TEST_OUT_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/data/datasets/usaco/tests/{}/{}.out'
-# USACO_TEST_OUT_ALT_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/data/datasets/usaco/tests/{}/O.{}'
+USACO_TEST_IN_PATH = 'agent_eval_harness/benchmarks/USACO/data/datasets/usaco_v3/tests/{}/{}.in'
+USACO_TEST_IN_ALT_PATH = 'agent_eval_harness/benchmarks/USACO/data/datasets/usaco_v3/tests/{}/I.{}'
+USACO_TEST_OUT_PATH = 'agent_eval_harness/benchmarks/USACO/data/datasets/usaco_v3/tests/{}/{}.out'
+USACO_TEST_OUT_ALT_PATH = 'agent_eval_harness/benchmarks/USACO/data/datasets/usaco_v3/tests/{}/O.{}'
 
 # note: test_num is 1-indexed
 def get_test_in_out_files(problem_id, test_num):

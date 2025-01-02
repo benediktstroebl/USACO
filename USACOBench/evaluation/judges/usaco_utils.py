@@ -16,16 +16,15 @@ from USACOBench.evaluation.result_type import ResultType
 Result = Dict[str, str]
 
 # [FILL IN: NEED PATH TO TESTS]
-# USACO_TEST_IN_PATH = '/home/azureuser/agent-eval-harness/agent_eval_harness/benchmarks/USACO/data/datasets/usaco_v3/tests/{}/{}.in'
-# USACO_TEST_IN_ALT_PATH = '/home/azureuser/agent-eval-harness/agent_eval_harness/benchmarks/USACO/data/datasets/usaco_v3/tests/{}/I.{}'
-# USACO_TEST_OUT_PATH = '/home/azureuser/agent-eval-harness/agent_eval_harness/benchmarks/USACO/data/datasets/usaco_v3/tests/{}/{}.out'
-# USACO_TEST_OUT_ALT_PATH = '/home/azureuser/agent-eval-harness/agent_eval_harness/benchmarks/USACO/data/datasets/usaco_v3/tests/{}/O.{}'
+USACO_TEST_IN_PATH = '/n/fs/nlp-qbshi/p-in-memory-learning/data/datasets/usaco_v3/tests/{}/{}.in'
+USACO_TEST_IN_ALT_PATH = '/n/fs/nlp-qbshi/p-in-memory-learning/data/datasets/usaco_v3/tests/{}/I.{}'
+USACO_TEST_OUT_PATH = '/n/fs/nlp-qbshi/p-in-memory-learning/data/datasets/usaco_v3/tests/{}/{}.out'
+USACO_TEST_OUT_ALT_PATH = '/n/fs/nlp-qbshi/p-in-memory-learning/data/datasets/usaco_v3/tests/{}/O.{}'
 
-# get above paths from environment variables
-USACO_TEST_IN_PATH = os.environ['USACO_TEST_IN_PATH']
-USACO_TEST_IN_ALT_PATH = os.environ['USACO_TEST_IN_ALT_PATH']
-USACO_TEST_OUT_PATH = os.environ['USACO_TEST_OUT_PATH']
-USACO_TEST_OUT_ALT_PATH = os.environ['USACO_TEST_OUT_ALT_PATH']
+# USACO_TEST_IN_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/data/datasets/usaco/tests/{}/{}.in'
+# USACO_TEST_IN_ALT_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/data/datasets/usaco/tests/{}/I.{}'
+# USACO_TEST_OUT_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/data/datasets/usaco/tests/{}/{}.out'
+# USACO_TEST_OUT_ALT_PATH = '/n/fs/nlp-iml/p-in-memory-learning2/data/datasets/usaco/tests/{}/O.{}'
 
 # note: test_num is 1-indexed
 def get_test_in_out_files(problem_id, test_num):
@@ -108,7 +107,14 @@ def check_correctness(program: str, test_num: int, timeout: float, memory_limit:
             check_program = prefix_program + program + suffix_program
 
             try:
-                exec_globals = {}
+                # Since we are executing untrusted code we want to remove all global
+                # variables from the namespace we provide to "exec" for running this code, but 
+                # we do want to set the {'__name__': '__main__'} so that "main" function
+                # in the generated code does get called (while all the global variables from
+                # the original context are still cleared out),
+                # We should consider replacing exec with subprocess so that the code
+                # is run in a separate Python interpreter process.
+                exec_globals = {'__name__': '__main__'}
                 with swallow_io():
                     with time_limit(timeout):
 # WARNING
